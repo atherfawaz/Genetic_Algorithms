@@ -47,11 +47,6 @@ def fitness_function():
                     UNFIT.append(Coordinate(i, j, k, difference))
 
 
-def get_difference(elem):
-    if (elem[0].difference > elem[1].difference):
-        return
-
-
 if __name__ == "__main__":
     # display image
     # plt.show()
