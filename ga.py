@@ -33,8 +33,6 @@ class Coordinate:
         self.difference = difference
 
 # Operates on a list
-
-
 def optimized_fitness():
     global UNFIT
     for var in UNFIT:
@@ -46,8 +44,6 @@ def optimized_fitness():
             UNFIT.remove(var)
 
 # O(n^3)
-
-
 def fitness_function():
     global UNFIT
     global DIFFERENCE_MATRIX
