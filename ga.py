@@ -72,7 +72,7 @@ def cross_over():
         # swap genes (depths) 0 and 1 with 2 and 3
         # checked tuple swap but apparently this is a syntax error
         # didn't look further
-        GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2]), GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3])
+        GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2], GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3]
 
 def mutate():
     dummy = None
