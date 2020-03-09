@@ -6,30 +6,28 @@ from random import seed
 from random import randint, random
 
 # GLOBALS
-FILE = 'imageB.bmp'
+FILE = 'image.png'
 IMAGE = mpimg.imread(FILE)
 ROWS = IMAGE.shape[0]
 COLUMNS = IMAGE.shape[1]
-DEPTH = IMAGE.shape[2]
-DIFFERENCE_MATRIX = numpy.zeros((ROWS, COLUMNS, DEPTH))
+DEPTH = 1
+POPULATION = []
+POPULATION_SIZE = 100
 GENETIC_IMAGE = numpy.random.randint(0, 255, size=(ROWS, COLUMNS, DEPTH))
 GENERATIONS = 1000
 UNFIT = []
-THRESHOLD = 0  # set to 0 for no mismatch between images
+THRESHOLD = 10  # set to 0 for no mismatch between images
+seed(1)
 # GLOBALS
 
 
 # Point class to keep track of the coordinates of the unfit population
-class Coordinate:
-    x = None
-    y = None
-    z = None
+class Population_Class:
+    array = None
     difference = None
 
-    def __init__(self, x, y, z, difference):
-        self.x = x
-        self.y = y
-        self.z = z
+    def __init__(self, difference):
+        self.array = numpy.random.randint(0, 255, size=(ROWS, COLUMNS, DEPTH))
         self.difference = difference
 
 # Operates on a list
@@ -43,20 +41,15 @@ def optimized_fitness():
             # remove this element if it is at its correct value
             UNFIT.remove(var)
 
-# O(n^3)
 def fitness_function():
-    global UNFIT
-    global DIFFERENCE_MATRIX
-    UNFIT = []
-    for i in range(0, ROWS):
-        for j in range(0, COLUMNS):
-            for k in range(0, DEPTH):
-                difference = IMAGE[i][j][k] - GENETIC_IMAGE[i][j][k]
-                DIFFERENCE_MATRIX[i][j][k] = difference
-                if (abs(difference) > THRESHOLD):
-                    # perhaps keepting the unfit population
-                    # in an array can help us
-                    UNFIT.append(Coordinate(i, j, k, difference))
+    global_difference = 0
+    for var in POPULATION:
+        global_difference = 0
+        for i in range(0, ROWS):
+            for j in range(0, COLUMNS):
+                difference = var.array[i][j][0] - IMAGE[i][j][0]
+                global_difference += abs(difference)
+        var.difference = global_difference
 
 
 def cross_over():
@@ -69,26 +62,34 @@ def cross_over():
         specimen_b = randint(0, select)
         # swap genes (depths) 0 and 1 with 2 and 3
         # tuple swapping
-        GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2], GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3]
+        GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a]
+                                                                                                       .y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2], GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3]
 
 def mutate():
     dummy = None
 
+def generate_population():
+    global POPULATION
+    seed(1)
+    for i in range(0, POPULATION_SIZE):
+        POPULATION.append(Population_Class(None))
+
 if __name__ == "__main__":
-    # display image
-    # plt.show()
-    current_generation = 0
+    generate_population()
     # call an O(n^3) loop once to set up the differences
-    fitness_function()
+    # fitness_function()
+    current_generation = 0
     while (current_generation < GENERATIONS):
         # gauge current picture
-        optimized_fitness()
+        fitness_function()
         # selection
-        UNFIT.sort(key=lambda Coordinate: Coordinate.difference, reverse = True)
+        POPULATION.sort(key=lambda Population_Class: Population_Class.difference, reverse=True)
         # cross over
         cross_over()
         # mutation
         mutate()
-        #increment generation
+        # increment generation
         current_generation += 1
         print('Generation: ', current_generation)
+        #imgplot = plt.imshow(GENETIC_IMAGE)
+        #plt.show() 
