@@ -6,14 +6,14 @@ from random import seed
 from random import randint, random
 
 # GLOBALS
-FILE = 'image.png'
+FILE = 'new.png'
 IMAGE = mpimg.imread(FILE)
 ROWS = IMAGE.shape[0]
 COLUMNS = IMAGE.shape[1]
 DEPTH = 1
 POPULATION = []
 POPULATION_SIZE = 100
-GENETIC_IMAGE = numpy.random.randint(0, 255, size=(ROWS, COLUMNS, DEPTH))
+GENETIC_IMAGE = numpy.random.randint(0, 255, size=(ROWS, COLUMNS))
 GENERATIONS = 1000
 UNFIT = []
 THRESHOLD = 10  # set to 0 for no mismatch between images
@@ -27,7 +27,7 @@ class Population_Class:
     difference = None
 
     def __init__(self, difference):
-        self.array = numpy.random.randint(0, 255, size=(ROWS, COLUMNS, DEPTH))
+        self.array = numpy.random.randint(0, 255, size=(ROWS, COLUMNS))
         self.difference = difference
 
 # Operates on a list
@@ -47,23 +47,13 @@ def fitness_function():
         global_difference = 0
         for i in range(0, ROWS):
             for j in range(0, COLUMNS):
-                difference = var.array[i][j][0] - IMAGE[i][j][0]
+                difference = var.array[i][j] - IMAGE[i][j]
                 global_difference += abs(difference)
         var.difference = global_difference
 
 
 def cross_over():
-    global UNFIT
-    global GENETIC_IMAGE
-    # select only 20% good boys
-    select = int((0.8 * len(UNFIT)))
-    for i in range(0, select):
-        specimen_a = randint(0, select)
-        specimen_b = randint(0, select)
-        # swap genes (depths) 0 and 1 with 2 and 3
-        # tuple swapping
-        GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a]
-                                                                                                       .y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2], GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3]
+    dummy = None
 
 def mutate():
     dummy = None
