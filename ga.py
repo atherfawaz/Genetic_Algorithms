@@ -2,6 +2,8 @@
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy
+from random import seed
+from random import randint, random
 
 # GLOBALS
 FILE = 'imageB.bmp'
@@ -65,13 +67,12 @@ def cross_over():
     global UNFIT
     global GENETIC_IMAGE
     # select only 20% good boys
-    select = int(0.8 * UNFIT.__len__)
+    select = int((0.8 * len(UNFIT)))
     for i in range(0, select):
-        specimen_a = random.randint(0, select)
-        specimen_b = random.randint(0, select)
+        specimen_a = randint(0, select)
+        specimen_b = randint(0, select)
         # swap genes (depths) 0 and 1 with 2 and 3
-        # checked tuple swap but apparently this is a syntax error
-        # didn't look further
+        # tuple swapping
         GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][0], GENETIC_IMAGE[UNFIT[specimen_a].x][UNFIT[specimen_a].y][1] = GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][2], GENETIC_IMAGE[UNFIT[specimen_b].x][UNFIT[specimen_b].y][3]
 
 def mutate():
@@ -80,7 +81,7 @@ def mutate():
 if __name__ == "__main__":
     # display image
     # plt.show()
-    current_generation=0
+    current_generation = 0
     # call an O(n^3) loop once to set up the differences
     fitness_function()
     while (current_generation < GENERATIONS):
@@ -94,3 +95,4 @@ if __name__ == "__main__":
         mutate()
         #increment generation
         current_generation += 1
+        print('Generation: ', current_generation)
