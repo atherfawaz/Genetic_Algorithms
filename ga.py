@@ -17,7 +17,7 @@ img.save('greyscale.png')
 FILE = 'imageB.bmp'
 IMAGE = mpimg.imread(FILE)
 plt.imshow(IMAGE)
-# IMAGE = cv2.resize(IMAGE,(20,28))
+IMAGE = cv2.resize(IMAGE,(20,28))
 # plt.imsave('original_compressed.png', IMAGE)
 ROWS = IMAGE.shape[0]
 COLUMNS = IMAGE.shape[1]
@@ -88,6 +88,7 @@ if __name__ == "__main__":
         if (current_generation % 100 == 0):
             print('Generation: ', current_generation)
             print("Cost: ", POPULATION[0].difference)
+            # GENETIC_IMAGE = np.reshape(GENETIC_IMAGE, IMAGE.shape)
             plt.imsave('temp.bmp', GENETIC_IMAGE.astype(np.uint8))
 
         # selection; selecting top 20%
